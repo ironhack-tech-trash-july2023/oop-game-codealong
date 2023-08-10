@@ -85,6 +85,18 @@ setInterval(() => {
 setInterval(() => {
     obstaclesArr.forEach( (obstacleInstance) => {
         obstacleInstance.moveDown();
+
+        if (
+            player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
+            player.positionX + player.width > obstacleInstance.positionX &&
+            player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
+            player.positionY + player.height > obstacleInstance.positionY
+        ) {
+            // Collision detected!
+            console.log("game over my fren! ");
+            location.href = "./gameover.html";
+        }
+        
     });
 }, 100);
 
