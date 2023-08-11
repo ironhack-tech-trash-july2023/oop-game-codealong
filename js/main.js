@@ -38,7 +38,7 @@ class Obstacle {
     constructor(){
         this.width = 20;
         this.height = 10;
-        this.positionX = 50;
+        this.positionX = Math.floor(Math.random() * (100 - this.width + 1)); // random number between 0 and (100 - width)
         this.positionY = 100;
         this.domElement = null;
 
