@@ -84,8 +84,17 @@ setInterval(() => {
 // move all obstacles
 setInterval(() => {
     obstaclesArr.forEach( (obstacleInstance) => {
+
+        // move
         obstacleInstance.moveDown();
 
+        // remove if outside
+        if( obstacleInstance.positionY < 0 - obstacleInstance.height ){    
+            obstacleInstance.domElement.remove(); //remove from the dom
+            obstaclesArr.shift(); // remove from the array
+        }
+
+        // detect collision
         if (
             player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
             player.positionX + player.width > obstacleInstance.positionX &&
