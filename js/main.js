@@ -2,27 +2,37 @@ class Game {
     constructor() {
         this.player = new Player();
         this.obstaclesArr = []; //will store instances of the class Obstacle
+        this.timer = 0; // time the user has been playing (measured by the number of times the game has updated)
     }
     start() {
-
         // attach event listeners
         this.attachEventListeners();
 
-        // create obstacles
-        setInterval(() => {
-            const newObstacle = new Obstacle();
-            this.obstaclesArr.push(newObstacle);
-        }, 3000);
+        // start game loop
+        this.gameLoop();
+    }
+    gameLoop() {
+        requestAnimationFrame(() => {
+            // create new obstacles
+            if (this.timer % 100 === 0) {
+                const newObstacle = new Obstacle();
+                this.obstaclesArr.push(newObstacle);
+            }
 
-        // move all obstacles
-        setInterval(() => {
+            // move all obstacles
             this.obstaclesArr.forEach((obstacleInstance) => {
                 obstacleInstance.moveDown(); // move
                 this.removeObstacleIfOutside(obstacleInstance); // remove if outside
                 this.detectCollision(obstacleInstance); // detect collision
 
             });
-        }, 100);
+
+            // increase timer 
+            this.timer++;
+
+            // keep calling game loop
+            this.gameLoop();
+        });
     }
     attachEventListeners() {
         document.addEventListener("keydown", (event) => {
@@ -80,11 +90,11 @@ class Player {
         parentElm.appendChild(this.domElement);
     }
     moveLeft() {
-        this.positionX--;
+        this.positionX -= 2;
         this.domElement.style.left = this.positionX + "vw";
     }
     moveRight() {
-        this.positionX++;
+        this.positionX += 2;
         this.domElement.style.left = this.positionX + "vw";
     }
 }
@@ -116,7 +126,7 @@ class Obstacle {
         parentElm.appendChild(this.domElement);
     }
     moveDown() {
-        this.positionY -= 2;
+        this.positionY -= 1;
         this.domElement.style.bottom = this.positionY + "vh";
     }
 }
